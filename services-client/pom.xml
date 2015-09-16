@@ -2,43 +2,43 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>com.photobox.services.foundation</groupId>
-        <artifactId>services-parent</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
+  <parent>
+    <groupId>com.photobox.services.foundation</groupId>
+    <artifactId>services-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
 
-    <artifactId>services-client</artifactId>
+  <artifactId>services-client</artifactId>
 
-    <properties>
-        <thrift-client-pool.version>1.2</thrift-client-pool.version>
-    </properties>
+  <properties>
+    <thrift-client-pool.version>1.2</thrift-client-pool.version>
+  </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.apache.thrift</groupId>
-            <artifactId>libthrift</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>com.wealoha</groupId>
-            <artifactId>thrift-client-pool-java</artifactId>
-            <version>${thrift-client-pool.version}</version>
-        </dependency>
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.thrift</groupId>
+      <artifactId>libthrift</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>com.wealoha</groupId>
+      <artifactId>thrift-client-pool-java</artifactId>
+      <version>${thrift-client-pool.version}</version>
+    </dependency>
 
-        <!-- test dependencies -->
-        <dependency>
-            <groupId>com.photobox.services.foundation</groupId>
-            <artifactId>services-testing</artifactId>
-            <version>${project.parent.version}</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+    <!-- test dependencies -->
+    <dependency>
+      <groupId>com.photobox.services.foundation</groupId>
+      <artifactId>services-testing</artifactId>
+      <version>${project.parent.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 </project>
