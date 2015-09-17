@@ -6,36 +6,26 @@
 
   <parent>
     <groupId>com.photobox.services.foundation</groupId>
-    <artifactId>services-foundation-root</artifactId>
+    <artifactId>services-foundation-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>services-core</artifactId>
 
   <dependencies>
-    <!-- module dependencies -->
     <dependency>
       <groupId>com.photobox.services.foundation</groupId>
       <artifactId>services-client</artifactId>
-      <version>${project.parent.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.photobox.services.foundation</groupId>
+      <artifactId>services-thrift-provider</artifactId>
     </dependency>
 
-    <dependency>
-      <groupId>org.apache.thrift</groupId>
-      <artifactId>libthrift</artifactId>
-      <exclusions>
-        <exclusion>
-          <groupId>org.slf4j</groupId>
-          <artifactId>slf4j-api</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
     <dependency>
       <groupId>io.dropwizard</groupId>
       <artifactId>dropwizard-core</artifactId>
     </dependency>
-
-    <!-- dependencies brought to other projects -->
     <dependency>
       <groupId>io.dropwizard</groupId>
       <artifactId>dropwizard-metrics-graphite</artifactId>
@@ -49,7 +39,6 @@
     <dependency>
       <groupId>com.photobox.services.foundation</groupId>
       <artifactId>services-testing</artifactId>
-      <version>${project.parent.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

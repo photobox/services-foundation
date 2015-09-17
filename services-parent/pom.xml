@@ -5,36 +5,23 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>com.photobox</groupId>
-    <artifactId>photobox-pom</artifactId>
-    <version>1.1</version>
+    <groupId>com.photobox.services.foundation</groupId>
+    <artifactId>services-foundation-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
   </parent>
 
-  <groupId>com.photobox.services.foundation</groupId>
   <artifactId>services-parent</artifactId>
-  <version>1.0-SNAPSHOT</version>
 
   <packaging>pom</packaging>
 
   <properties>
-    <java.version>1.8</java.version>
-
-    <services-foundation.version>${project.version}</services-foundation.version>
-
-    <thrift.version>0.9.2</thrift.version>
-
-
-    <!-- thrift configuration -->
+    <!-- thrift antrun configuration -->
     <thrift.docker.version>${thrift.version}</thrift.docker.version>
     <thrift.file.name>thrift-service.thrift</thrift.file.name>
     <thrift.dest.dir>src/main/java</thrift.dest.dir>
 
-    <!-- plugins versions -->
-    <maven-checkstyle.version>2.16</maven-checkstyle.version>
-    <maven-resources.version>2.7</maven-resources.version>
-    <maven-shade.version>2.4</maven-shade.version>
-    <maven-antrun.version>1.8</maven-antrun.version>
-    <git-commit-id.version>2.1.10</git-commit-id.version>
+    <!-- maven-shade plugin configuration -->
+    <start-class>${project.groupId}.application.Application</start-class>
   </properties>
 
   <build>
@@ -64,6 +51,44 @@
               <goals>
                 <goal>run</goal>
               </goals>
+            </execution>
+          </executions>
+        </plugin>
+
+        <!-- creates a fat-jar with everything needed to run the application -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-shade-plugin</artifactId>
+          <version>${maven-shade.version}</version>
+          <configuration>
+            <createDependencyReducedPom>true</createDependencyReducedPom>
+            <filters>
+              <filter>
+                <artifact>*:*</artifact>
+                <excludes>
+                  <exclude>META-INF/*.SF</exclude>
+                  <exclude>META-INF/*.DSA</exclude>
+                  <exclude>META-INF/*.RSA</exclude>
+                </excludes>
+              </filter>
+            </filters>
+          </configuration>
+          <executions>
+            <execution>
+              <phase>package</phase>
+              <goals>
+                <goal>shade</goal>
+              </goals>
+              <configuration>
+                <transformers>
+                  <transformer
+                      implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                  <transformer
+                      implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                    <mainClass>${start-class}</mainClass>
+                  </transformer>
+                </transformers>
+              </configuration>
             </execution>
           </executions>
         </plugin>
