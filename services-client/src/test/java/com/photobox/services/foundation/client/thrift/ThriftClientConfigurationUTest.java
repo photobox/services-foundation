@@ -1,7 +1,8 @@
 package com.photobox.services.foundation.client.thrift;
 
-import com.photobox.services.foundation.client.ClientConfiguration;
-import com.photobox.services.foundation.client.fixtures.ClientConfigurationFixtures;
+import static com.photobox.services.foundation.client.fixtures.ClientConfigurationFixtures.HOST;
+import static com.photobox.services.foundation.client.fixtures.ClientConfigurationFixtures.POOL_CONFIG;
+import static com.photobox.services.foundation.client.fixtures.ClientConfigurationFixtures.PORT;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -9,39 +10,48 @@ import org.junit.Test;
 public class ThriftClientConfigurationUTest {
 
   @Test
-  public void thriftClientConfiguration_validAttributes() {
+  public void defaultConf_validAttributes() {
+    ThriftClientConfiguration conf = ThriftClientConfiguration.defaultConfiguration(HOST, PORT);
+    Assert.assertEquals(HOST, conf.getHost());
+    Assert.assertEquals(PORT, conf.getPort());
+    Assert.assertEquals(ThriftClientConfiguration.DEFAULT_CLIENT_TYPE, conf.getClientType());
+  }
+
+  @Test
+  public void simpleConf_validAttributes() {
+    ThriftClientConfiguration conf = ThriftClientConfiguration.simpleClientConfiguration(HOST, PORT);
+    Assert.assertEquals(HOST, conf.getHost());
+    Assert.assertEquals(PORT, conf.getPort());
+    Assert.assertEquals(ClientType.SIMPLE, conf.getClientType());
+  }
+
+  @Test
+     public void pooledConf_validAttributesDefaultPoolConf() {
+    ThriftClientConfiguration conf = ThriftClientConfiguration.pooledClientConfiguration(HOST, PORT);
+    Assert.assertEquals(HOST, conf.getHost());
+    Assert.assertEquals(PORT, conf.getPort());
+    Assert.assertEquals(ClientType.POOLED, conf.getClientType());
+    PoolConfigUTest.assertPoolConfigEquals(PoolConfig.defaultPoolConfig(), conf.getPoolConfig());
+  }
+
+  @Test
+  public void pooledConf_validAttributesAndPoolConf() {
     ThriftClientConfiguration conf =
-        new ThriftClientConfiguration(ClientType.SIMPLE, "localhost", 123);
-    assertConf(conf, ClientType.SIMPLE, "localhost", 123);
+        ThriftClientConfiguration.pooledClientConfiguration(HOST, PORT, POOL_CONFIG);
+    Assert.assertEquals(HOST, conf.getHost());
+    Assert.assertEquals(PORT, conf.getPort());
+    Assert.assertEquals(ClientType.POOLED, conf.getClientType());
+    PoolConfigUTest.assertPoolConfigEquals(POOL_CONFIG, conf.getPoolConfig());
   }
 
   @Test
-  public void thriftClientConfiguration_validAttributesDefaultType() {
-    ThriftClientConfiguration conf = new ThriftClientConfiguration("localhost", 123);
-    assertConf(conf, ThriftClientConfiguration.DEFAULT_CLIENT_TYPE, "localhost", 123);
+  public void pooledConf_validAttributesAndNullPoolConf() {
+    ThriftClientConfiguration conf =
+        ThriftClientConfiguration.pooledClientConfiguration(HOST, PORT, POOL_CONFIG);
+    Assert.assertEquals(HOST, conf.getHost());
+    Assert.assertEquals(PORT, conf.getPort());
+    Assert.assertEquals(ClientType.POOLED, conf.getClientType());
+    PoolConfigUTest.assertPoolConfigEquals(PoolConfig.defaultPoolConfig(), conf.getPoolConfig());
   }
 
-  @Test
-  public void thriftClientConfiguration_fromValidConfiguration() {
-    ClientConfiguration baseConf = ClientConfigurationFixtures.clientConfiguration();
-    ThriftClientConfiguration conf = new ThriftClientConfiguration(baseConf);
-    assertConf(conf, ThriftClientConfiguration.DEFAULT_CLIENT_TYPE, baseConf.getHost(), baseConf.getPort());
-  }
-
-  @Test(expected = NullPointerException.class)
-  public void thriftClientConfiguration_nullType() {
-    new ThriftClientConfiguration(null, "localhost", 123);
-  }
-
-  @Test(expected = NullPointerException.class)
-  public void thriftClientConfiguration_nullConfiguration() {
-    new ThriftClientConfiguration(null);
-  }
-
-  private void assertConf(
-      ThriftClientConfiguration actualConf, ClientType clientType, String host, int port) {
-    Assert.assertEquals(clientType, actualConf.getClientType());
-    Assert.assertEquals(host, actualConf.getHost());
-    Assert.assertEquals(port, actualConf.getPort());
-  }
 }

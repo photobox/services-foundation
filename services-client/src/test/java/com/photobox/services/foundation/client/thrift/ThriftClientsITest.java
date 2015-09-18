@@ -1,8 +1,8 @@
 package com.photobox.services.foundation.client.thrift;
 
 import static com.photobox.services.foundation.client.fixtures.ClientConfigurationFixtures.PORT;
-import static com.photobox.services.foundation.client.fixtures.ClientConfigurationFixtures.TEST_POOLED_CONFIGURATION;
-import static com.photobox.services.foundation.client.fixtures.ClientConfigurationFixtures.TEST_SIMPLE_CONFIGURATION;
+import static com.photobox.services.foundation.client.fixtures.ClientConfigurationFixtures.THRIFT_CONFIGURATION_POOLED;
+import static com.photobox.services.foundation.client.fixtures.ClientConfigurationFixtures.THRIFT_CONFIGURATION_SIMPLE;
 import static org.junit.Assert.assertEquals;
 
 import com.photobox.services.foundation.client.ClientConfiguration;
@@ -18,7 +18,7 @@ import org.junit.Test;
 /**
  * Tests the behaviour of the different Thrift-based service clients.
  */
-public class ThriftServiceClientsITest {
+public class ThriftClientsITest {
 
   // even if the client behaviour is faked it's not possible to fake the socket connection so a
   // Thrift server has to be listening on the expected port
@@ -29,7 +29,7 @@ public class ThriftServiceClientsITest {
 
   @Test
   public void newThriftClient_simpleClientBehaviour_resultReturnedFromTheClient() {
-    TestServiceClient testServiceClient = testClient(TEST_SIMPLE_CONFIGURATION);
+    TestServiceClient testServiceClient = testClient(THRIFT_CONFIGURATION_SIMPLE);
     Object result = testServiceClient.test();
     // the returned object is the same obtained from the client
     assertEquals(TServiceClientFake.CLIENT_RESULT, result);
@@ -37,7 +37,7 @@ public class ThriftServiceClientsITest {
 
   @Test
   public void newThriftClient_simpleClientBehaviour_oneNewClientEveryCall() {
-    TestServiceClient testServiceClient = testClient(TEST_SIMPLE_CONFIGURATION);
+    TestServiceClient testServiceClient = testClient(THRIFT_CONFIGURATION_SIMPLE);
 
     // 1st call
     testServiceClient.test();
@@ -52,7 +52,7 @@ public class ThriftServiceClientsITest {
 
   @Test
   public void newThriftClient_simpleClientBehaviour_connectionLifeLimitedToInvocation() {
-    TestServiceClient testServiceClient = testClient(TEST_SIMPLE_CONFIGURATION);
+    TestServiceClient testServiceClient = testClient(THRIFT_CONFIGURATION_SIMPLE);
 
     testServiceClient.test();
 
@@ -69,7 +69,7 @@ public class ThriftServiceClientsITest {
 
   @Test
   public void newThriftClient_pooledClientBehaviour_resultReturnedFromTheClient() {
-    TestServiceClient testServiceClient = testClient(TEST_POOLED_CONFIGURATION);
+    TestServiceClient testServiceClient = testClient(THRIFT_CONFIGURATION_POOLED);
     Object result = testServiceClient.test();
     // the returned object is the same obtained from the client
     assertEquals(TServiceClientFake.CLIENT_RESULT, result);
@@ -77,7 +77,7 @@ public class ThriftServiceClientsITest {
 
   @Test
   public void newThriftClient_pooledClientBehaviour_usesPooledConnection() {
-    TestServiceClient testServiceClient = testClient(TEST_POOLED_CONFIGURATION);
+    TestServiceClient testServiceClient = testClient(THRIFT_CONFIGURATION_POOLED);
 
     // 1st call
     testServiceClient.test();
@@ -92,7 +92,7 @@ public class ThriftServiceClientsITest {
 
   @Test
   public void newThriftClient_pooledClientBehaviour_connectionRemainOpenAfterInvocation() {
-    TestServiceClient testServiceClient = testClient(TEST_POOLED_CONFIGURATION);
+    TestServiceClient testServiceClient = testClient(THRIFT_CONFIGURATION_POOLED);
 
     testServiceClient.test();
 
@@ -107,14 +107,14 @@ public class ThriftServiceClientsITest {
         true, TServiceClientFactoryFake.client.getOutputProtocol().getTransport().isOpen());
   }
 
-  private TestServiceClient testClient(ThriftClientConfiguration configuration) {
-    return ThriftServiceClients.newThriftClient(
+  static TestServiceClient testClient(ThriftClientConfiguration configuration) {
+    return ThriftClients.newThriftClient(
         new TServiceClientFactoryFake(), TestServiceClient.class, configuration);
   }
 
 
   // fake the behaviour of a thrift client factory adding some testing capabilities
-  private static class TServiceClientFactoryFake implements TServiceClientFactory {
+  static class TServiceClientFactoryFake implements TServiceClientFactory {
     static TServiceClientFake client;
     static int createdClientCnt;
 
@@ -137,7 +137,7 @@ public class ThriftServiceClientsITest {
   }
 
   // fake the behaviour of a TServiceClient validating that the connection has been opened
-  private static class TServiceClientFake extends TServiceClient implements TestServiceClient {
+  static class TServiceClientFake extends TServiceClient implements TestServiceClient {
     static final Object CLIENT_RESULT = new Object();
     boolean inConnOpen = false;
     boolean outConnOpen = false;

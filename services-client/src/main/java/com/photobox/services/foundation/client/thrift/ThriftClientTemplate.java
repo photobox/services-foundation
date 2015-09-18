@@ -17,13 +17,13 @@ import java.lang.reflect.Method;
  * The actual Thrift client as well as the logic around the call is defined by the
  * sub-class implementing this template.
  */
-abstract class ThriftServiceClientTemplate implements InvocationHandler {
+abstract class ThriftClientTemplate<C extends ClientConfiguration> implements InvocationHandler {
 
   // the client's configuration
-  final ClientConfiguration conf;
+  final C conf;
 
   // a basic implementation of the common functionalities defined in ServiceClient
-  private final ServiceClient serviceClientTarget;
+  private final ServiceClient<C> serviceClientTarget;
 
 
   /**
@@ -31,9 +31,9 @@ abstract class ThriftServiceClientTemplate implements InvocationHandler {
    *
    * @param conf the client's configuration
    */
-  ThriftServiceClientTemplate(ClientConfiguration conf) {
+  ThriftClientTemplate(C conf) {
     this.conf = conf;
-    this.serviceClientTarget = new SimpleServiceClient(conf);
+    this.serviceClientTarget = new SimpleServiceClient<>(conf);
   }
 
   /**

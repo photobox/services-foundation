@@ -13,9 +13,9 @@ import java.lang.reflect.Proxy;
  *
  * This class provides only static factories and is not instantiable.
  */
-public final class ThriftServiceClients {
+public final class ThriftClients {
 
-  private ThriftServiceClients() {
+  private ThriftClients() {
     // suppress default constructor to prevent instantiation
   }
 
@@ -50,10 +50,10 @@ public final class ThriftServiceClients {
     InvocationHandler invocationHandler;
     switch (conf.getClientType()) {
       case SIMPLE:
-        invocationHandler = new SimpleThriftServiceClient(thriftClientFactory, conf);
+        invocationHandler = new SimpleThriftClient(thriftClientFactory, conf);
         break;
       case POOLED:
-        invocationHandler = new PooledThriftServiceClient(thriftClientFactory, conf);
+        invocationHandler = new PooledThriftClient(thriftClientFactory, conf);
         break;
       default:
         throw new IllegalArgumentException("Unsupported type: " + conf.getClientType());

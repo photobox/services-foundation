@@ -15,15 +15,15 @@ import java.lang.reflect.Proxy;
  * a new connection for every call.
  *
  * This class is not intended to be used directly, but has to be instantiated
- * through a factory (e.g. {@link ThriftServiceClients}) that instantiates it as a
+ * through a factory (e.g. {@link ThriftClients}) that instantiates it as a
  * {@link Proxy} reflecting the calls to the service.
  */
-final class SimpleThriftServiceClient extends ThriftServiceClientTemplate {
+final class SimpleThriftClient extends ThriftClientTemplate<ThriftClientConfiguration> {
 
   // the factory used to generate Thrift clients
   private final TServiceClientFactory clientFactory;
 
-  SimpleThriftServiceClient(TServiceClientFactory clientFactory, ThriftClientConfiguration conf) {
+  SimpleThriftClient(TServiceClientFactory clientFactory, ThriftClientConfiguration conf) {
     super(conf);
     this.clientFactory = clientFactory;
   }

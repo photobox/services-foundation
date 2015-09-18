@@ -3,16 +3,16 @@ package com.photobox.services.foundation.client;
 /**
  * Skeletal implementation of a {@link ServiceClient}.
  */
-public final class SimpleServiceClient implements ServiceClient {
+public final class SimpleServiceClient<C extends ClientConfiguration> implements ServiceClient<C> {
 
-  private final ClientConfiguration conf;
+  private final C conf;
 
-  public SimpleServiceClient(ClientConfiguration conf) {
+  public SimpleServiceClient(C conf) {
     this.conf = conf;
   }
 
   @Override
-  public ClientConfiguration getConfiguration() {
+  public C getConfiguration() {
     return conf;
   }
 }

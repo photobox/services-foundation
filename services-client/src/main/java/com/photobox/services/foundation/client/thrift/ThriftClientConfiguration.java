@@ -9,49 +9,85 @@ import org.apache.commons.lang3.Validate;
  */
 public class ThriftClientConfiguration extends ClientConfiguration {
 
-  public static final ClientType DEFAULT_CLIENT_TYPE = ClientType.POOLED;
+  static final ClientType DEFAULT_CLIENT_TYPE = ClientType.POOLED;
 
   private final ClientType clientType;
+  private final PoolConfig poolConfig;
 
   /**
-   * Creates a new Thrift specific configuration starting from a generic one.
-   * ClientType will be set using the default value 'POOLED'.
-   *
-   * @param conf a generic configuration
-   * @throws NullPointerException if any of the parameters is null
-   */
-  public ThriftClientConfiguration(ClientConfiguration conf) {
-    this(conf.getHost(), conf.getPort());
-  }
-
-  /**
-   * Creates a new Thrift configuration with default clientType 'POOLED'.
+   * Creates a Thrift client configuration with default parameters.
    *
    * @param host the host of the remote server
    * @param port the port of the remote server
-   * @throws NullPointerException if any of the parameters is null
-   * @throws IllegalArgumentException if the host is an empty String
+   * @return a default Thrift client configuration
    */
-  public ThriftClientConfiguration(String host, int port) {
-    this(DEFAULT_CLIENT_TYPE, host, port);
+  public static ThriftClientConfiguration defaultConfiguration(String host, int port) {
+    return new ThriftClientConfiguration(DEFAULT_CLIENT_TYPE, host, port);
   }
 
   /**
-   * Creates a new Thrift configuration with the specified attributes.
+   * Creates the configuration for a simple Thrift client.
+   * Simple Thrift clients use a new connection for each invocation.
    *
-   * @see ClientType
-   *
-   * @param clientType the type of Thrift client
    * @param host the host of the remote server
    * @param port the port of the remote server
+   * @return the configuration for a simple Thrift client
    */
-  public ThriftClientConfiguration(ClientType clientType, String host, int port) {
+  public static ThriftClientConfiguration simpleClientConfiguration(String host, int port) {
+    return new ThriftClientConfiguration(ClientType.SIMPLE, host, port);
+  }
+
+  /**
+   * Creates the configuration for a pooled Thrift client using the default pool configuration.
+   * Pooled Thrift clients use a pool of connections to the specified server.
+   *
+   * @param host the host of the remote server
+   * @param port the port of the remote server
+   * @return the configuration for a pooled Thrift client
+   */
+  public static ThriftClientConfiguration pooledClientConfiguration(String host, int port) {
+    return new ThriftClientConfiguration(ClientType.POOLED, host, port);
+  }
+
+  /**
+   * Creates the configuration for a pooled Thrift client using the given
+   * configuration for the pool. If the pool configuration is {@code null}
+   * the default one will be used.
+   * Pooled Thrift clients use a pool of connections to the specified server.
+   *
+   * @param host the host of the remote server
+   * @param port the port of the remote server
+   * @param poolConfig the configuration for the connection pool
+   * @return the configuration for a pooled Thrift client
+   */
+  public static ThriftClientConfiguration pooledClientConfiguration(
+      String host, int port, PoolConfig poolConfig) {
+    return new ThriftClientConfiguration(ClientType.POOLED, host, port, poolConfig);
+  }
+
+  // can only be instantiated through internal factories
+  private ThriftClientConfiguration(ClientType clientType, String host, int port) {
+    this(clientType, host, port, null);
+  }
+
+  // can only be instantiated through internal factories
+  private ThriftClientConfiguration(ClientType clientType, String host, int port, PoolConfig poolConfig) {
     super(host, port);
     Validate.notNull(clientType, "clientType can't be null");
     this.clientType = clientType;
+    if (poolConfig == null) {
+      this.poolConfig =  PoolConfig.defaultPoolConfig();
+    } else {
+      this.poolConfig = poolConfig;
+    }
   }
 
   public final ClientType getClientType() {
     return clientType;
   }
+
+  public final PoolConfig getPoolConfig() {
+    return poolConfig;
+  }
+
 }
