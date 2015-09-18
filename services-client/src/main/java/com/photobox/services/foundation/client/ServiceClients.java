@@ -46,13 +46,24 @@ public final class ServiceClients {
     ServiceLoader<ServiceClientFactory> clientFactories =
         ServiceLoader.load(ServiceClientFactory.class);
 
+    ServiceClientFactory<T,C> found = null;
+
     // search for a ServiceClientFactory supporting the requested clientInterface
     for (ServiceClientFactory clientFactory : clientFactories) {
       if (clientInterface.equals(clientFactory.supportedInterface())) {
         @SuppressWarnings("unchecked") // the previous if statement validates the clientFactory type
         ServiceClientFactory<T,C> result = (ServiceClientFactory<T,C>) clientFactory;
-        return result;
+        if (found != null) {
+          throw new IllegalStateException(
+              "Found more than one ServiceClientFactory for client interface: "
+              + clientInterface.toString());
+        }
+        found = result;
       }
+    }
+
+    if (found != null) {
+      return found;
     }
 
     throw new IllegalArgumentException(

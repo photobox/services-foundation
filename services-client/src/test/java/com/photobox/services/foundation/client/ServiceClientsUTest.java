@@ -6,6 +6,7 @@ import static org.junit.Assert.assertEquals;
 import com.photobox.services.foundation.client.fixtures.TestServiceClient;
 import com.photobox.services.foundation.client.fixtures.TestServiceClientFactory;
 import com.photobox.services.foundation.client.fixtures.TestServiceClientFactoryFaulty.TestServiceClientNotSupportedByFactory;
+import com.photobox.services.foundation.client.fixtures.TestServiceClientMultiple;
 
 import org.junit.Test;
 
@@ -39,6 +40,11 @@ public class ServiceClientsUTest {
   @Test(expected = NullPointerException.class)
   public void newClient_nullConfiguration() {
     ServiceClients.newClient(TestServiceClient.class, null);
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void newClient_tooManyFactories() {
+    ServiceClients.newClient(TestServiceClientMultiple.class, TEST_CONFIGURATION);
   }
 
   private interface TestServiceClientWithNoConfiguredFactory extends ServiceClient {}

@@ -1,2 +1,4 @@
 com.photobox.services.foundation.client.fixtures.TestServiceClientFactory
 com.photobox.services.foundation.client.fixtures.TestServiceClientFactoryFaulty
+com.photobox.services.foundation.client.fixtures.TestServiceClientFactoryFaultyMultiple1
+com.photobox.services.foundation.client.fixtures.TestServiceClientFactoryFaultyMultiple2
