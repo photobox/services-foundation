@@ -45,6 +45,32 @@
     <git-commit-id.version>2.1.10</git-commit-id.version>
   </properties>
 
+  <repositories>
+    <!-- PBX Repositories -->
+    <repository>
+      <id>pbox-repo-release</id>
+      <name>pbox-repo-release</name>
+      <url>http://support.boxtop.photobox.com/artifactory/boxtop-release-local</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>pbox-repo-snapshot</id>
+      <name>pbox-repo-snapshot</name>
+      <url>http://support.boxtop.photobox.com/artifactory/boxtop-snapshot-local</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
   <dependencyManagement>
     <dependencies>
       <!-- Services Foundation -->
