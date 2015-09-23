@@ -29,8 +29,6 @@ public final class ThriftClients {
    * The behaviour of the client will depend on the {@code clientType} specified
    * in the configuration.
    *
-   * @see ClientType
-   *
    * @param thriftClientFactory the factory that will be used to generate the actual Thrift client
    * @param clientInterface the interface exposed by the client
    * @param conf the client's configuration

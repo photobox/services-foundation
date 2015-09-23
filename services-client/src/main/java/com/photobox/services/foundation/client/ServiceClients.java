@@ -2,6 +2,8 @@ package com.photobox.services.foundation.client;
 
 import org.apache.commons.lang3.Validate;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ServiceLoader;
 
 /**
@@ -46,31 +48,32 @@ public final class ServiceClients {
     ServiceLoader<ServiceClientFactory> clientFactories =
         ServiceLoader.load(ServiceClientFactory.class);
 
-    ServiceClientFactory<T,C> found = null;
+    List<ServiceClientFactory<T,C>> found = new ArrayList<>();
 
     // search for a ServiceClientFactory supporting the requested clientInterface
     for (ServiceClientFactory clientFactory : clientFactories) {
       if (clientInterface.equals(clientFactory.supportedInterface())) {
         @SuppressWarnings("unchecked") // the previous if statement validates the clientFactory type
         ServiceClientFactory<T,C> result = (ServiceClientFactory<T,C>) clientFactory;
-        if (found != null) {
-          throw new IllegalStateException(
-              "Found more than one ServiceClientFactory for client interface: "
-              + clientInterface.toString());
-        }
-        found = result;
+        found.add(result);
       }
     }
 
-    if (found != null) {
-      return found;
+    if (found.size() > 1) {
+      throw new IllegalStateException(
+          "Found more than one ServiceClientFactory for client interface: "
+          + clientInterface.toString());
     }
 
-    throw new IllegalArgumentException(
-        "Unable to find a ServiceClientFactory for client interface: "
-            + clientInterface.toString()
-            + " (is your factory configured in "
-            + "META-INF/services/ServiceClientFactory and "
-            + "is the supportedInterface method implemented properly?)");
+    if (found.isEmpty()) {
+      throw new IllegalArgumentException(
+          "Unable to find a ServiceClientFactory for client interface: "
+              + clientInterface.toString()
+              + " (is your factory configured in "
+              + "META-INF/services/ServiceClientFactory and "
+              + "is the supportedInterface method implemented properly?)");
+    }
+
+    return found.get(0);
   }
 }

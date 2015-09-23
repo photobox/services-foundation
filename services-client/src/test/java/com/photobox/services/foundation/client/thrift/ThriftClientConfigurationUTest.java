@@ -22,7 +22,7 @@ public class ThriftClientConfigurationUTest {
     ThriftClientConfiguration conf = ThriftClientConfiguration.simpleClientConfiguration(HOST, PORT);
     Assert.assertEquals(HOST, conf.getHost());
     Assert.assertEquals(PORT, conf.getPort());
-    Assert.assertEquals(ClientType.SIMPLE, conf.getClientType());
+    Assert.assertEquals(ThriftClientConfiguration.ClientType.SIMPLE, conf.getClientType());
   }
 
   @Test
@@ -30,7 +30,7 @@ public class ThriftClientConfigurationUTest {
     ThriftClientConfiguration conf = ThriftClientConfiguration.pooledClientConfiguration(HOST, PORT);
     Assert.assertEquals(HOST, conf.getHost());
     Assert.assertEquals(PORT, conf.getPort());
-    Assert.assertEquals(ClientType.POOLED, conf.getClientType());
+    Assert.assertEquals(ThriftClientConfiguration.ClientType.POOLED, conf.getClientType());
     PoolConfigUTest.assertPoolConfigEquals(PoolConfig.defaultPoolConfig(), conf.getPoolConfig());
   }
 
@@ -40,7 +40,7 @@ public class ThriftClientConfigurationUTest {
         ThriftClientConfiguration.pooledClientConfiguration(HOST, PORT, POOL_CONFIG);
     Assert.assertEquals(HOST, conf.getHost());
     Assert.assertEquals(PORT, conf.getPort());
-    Assert.assertEquals(ClientType.POOLED, conf.getClientType());
+    Assert.assertEquals(ThriftClientConfiguration.ClientType.POOLED, conf.getClientType());
     PoolConfigUTest.assertPoolConfigEquals(POOL_CONFIG, conf.getPoolConfig());
   }
 
@@ -50,7 +50,7 @@ public class ThriftClientConfigurationUTest {
         ThriftClientConfiguration.pooledClientConfiguration(HOST, PORT, POOL_CONFIG);
     Assert.assertEquals(HOST, conf.getHost());
     Assert.assertEquals(PORT, conf.getPort());
-    Assert.assertEquals(ClientType.POOLED, conf.getClientType());
+    Assert.assertEquals(ThriftClientConfiguration.ClientType.POOLED, conf.getClientType());
     PoolConfigUTest.assertPoolConfigEquals(PoolConfig.defaultPoolConfig(), conf.getPoolConfig());
   }
 

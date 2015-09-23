@@ -13,9 +13,9 @@ import org.slf4j.LoggerFactory;
 /**
  * A generic multi-threaded Thrift server.
  */
-public final class MultiThreadedThriftThriftServer implements ThriftServer {
+final class MultiThreadedThriftServer implements ThriftServer {
 
-  private static final Logger LOG = LoggerFactory.getLogger(MultiThreadedThriftThriftServer.class);
+  private static final Logger LOG = LoggerFactory.getLogger(MultiThreadedThriftServer.class);
 
   private final int port;
   private final TProcessor processor;
@@ -30,7 +30,7 @@ public final class MultiThreadedThriftThriftServer implements ThriftServer {
    * @param port the tcp port used by the service
    * @param processor the Thrift Processor that will implement the logic of the service
    */
-  public MultiThreadedThriftThriftServer(final int port, final TProcessor processor) {
+  MultiThreadedThriftServer(int port, TProcessor processor) {
     this.port = port;
     this.processor = processor;
   }

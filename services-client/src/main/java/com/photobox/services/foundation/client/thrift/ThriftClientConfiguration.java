@@ -9,10 +9,25 @@ import org.apache.commons.lang3.Validate;
  */
 public class ThriftClientConfiguration extends ClientConfiguration {
 
+  /**
+   * Defines the different types of supported Thrift clients.
+   */
+  enum ClientType {
+    /**
+     * A SIMPLE client starts a new connection for each call.
+     */
+    SIMPLE,
+
+    /**
+     * A POOLED client keeps a configurable pool of connections.
+     */
+    POOLED
+  }
+
   static final ClientType DEFAULT_CLIENT_TYPE = ClientType.POOLED;
 
   private final ClientType clientType;
-  private final PoolConfig poolConfig;
+  private final PoolConfig poolConfig; // expected to be null if clientType is not POOLED
 
   /**
    * Creates a Thrift client configuration with default parameters.
@@ -82,12 +97,22 @@ public class ThriftClientConfiguration extends ClientConfiguration {
     }
   }
 
-  public final ClientType getClientType() {
-    return clientType;
-  }
-
+  /**
+   * Return the poolConfig contained in this configuration.
+   * The poolConfig can be {@code null} if the current configuration is for a simple server type.
+   * @return the poolConfig
+   * @see PoolConfig
+   */
   public final PoolConfig getPoolConfig() {
     return poolConfig;
   }
 
+  /**
+   * Return the clientType for which this configuration has been created.
+   * This is an internal implementation detail and is not meant to be shown outside the framework.
+   * @return the clientType
+   */
+  final ClientType getClientType() {
+    return clientType;
+  }
 }

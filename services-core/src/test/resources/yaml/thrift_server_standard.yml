@@ -1,0 +1,4 @@
+type: thread-pool
+port: 9984
+service:
+  name: test-service

@@ -21,19 +21,42 @@ abstract class AbstractManagedThriftServerFactory implements ManagedThriftServer
   // expected to be set through injection - no default value
   private DiscoverableProcessor processor;
 
+  /**
+   * Build a Thrift server.
+   *
+   * @return a {@link ManagedThriftServer} listening on the configured port.
+   */
+  @Override
+  public abstract ManagedThriftServer build();
+
+  /**
+   * Return that will be exposed by the servers created by this factory.
+   *
+   * @return the server port
+   */
   @Override
   @JsonProperty
   public int getPort() {
     return port;
   }
 
-  @JsonProperty("service")
-  public DiscoverableProcessor getProcessor() {
-    return processor;
+  // for test purpose only
+  void setPort(int port) {
+    this.port = port;
   }
 
   /**
-   * @return a new ThriftServer listening on the configured port.
+   * Return the service processor that will execute the service logic.
+   *
+   * @return the service processor
    */
-  public abstract ManagedThriftServer build();
+  @JsonProperty("service")
+  DiscoverableProcessor getProcessor() {
+    return processor;
+  }
+
+  // for test purpose only
+  void setProcessor(DiscoverableProcessor processor) {
+    this.processor = processor;
+  }
 }

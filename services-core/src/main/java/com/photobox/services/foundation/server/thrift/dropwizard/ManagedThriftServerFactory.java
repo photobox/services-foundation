@@ -17,7 +17,9 @@ public interface ManagedThriftServerFactory extends Discoverable {
   ManagedThriftServer build();
 
   /**
-   * @return the port that will be exposed by the servers created by this factory
+   * Return that will be exposed by the servers created by this factory.
+   *
+   * @return the server port
    */
   int getPort();
 }
