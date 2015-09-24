@@ -30,7 +30,7 @@ public class ThriftServerRule extends ExternalResource {
 
   /** The logic executed before the test - starts the server. */
   @Override
-  public void before() throws TTransportException {
+  protected void before() throws TTransportException {
     serverSocket = new TServerSocket(port);
     server = new TSimpleServer(new TServer.Args(serverSocket).processor(processor));
 
@@ -43,7 +43,7 @@ public class ThriftServerRule extends ExternalResource {
 
   /** The logic executed after the test - stops the server. */
   @Override
-  public void after() {
+  protected void after() {
     server.stop();
     serverSocket.close();
   }

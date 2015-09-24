@@ -21,7 +21,7 @@ public class FoundationConfiguration extends Configuration {
    * @return the thrift server factory
    */
   @JsonProperty("thrift-server")
-  public ManagedThriftServerFactory getThriftServerFactory() {
+  public final ManagedThriftServerFactory getThriftServerFactory() {
     return thriftServerFactory;
   }
 }

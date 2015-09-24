@@ -15,10 +15,6 @@
   <dependencies>
     <dependency>
       <groupId>com.photobox.services.foundation</groupId>
-      <artifactId>services-client</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.photobox.services.foundation</groupId>
       <artifactId>services-thrift-provider</artifactId>
     </dependency>
 
@@ -36,10 +32,22 @@
     </dependency>
 
     <!-- test dependencies -->
+    <!-- these are copied from services-testing that cannot be imported here due to cyclic dependency -->
     <dependency>
       <groupId>com.photobox.services.foundation</groupId>
-      <artifactId>services-testing</artifactId>
-      <scope>test</scope>
+      <artifactId>services-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.photobox.services.foundation</groupId>
+      <artifactId>services-thrift-provider</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.dropwizard</groupId>
+      <artifactId>dropwizard-testing</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-all</artifactId>
     </dependency>
   </dependencies>
 </project>

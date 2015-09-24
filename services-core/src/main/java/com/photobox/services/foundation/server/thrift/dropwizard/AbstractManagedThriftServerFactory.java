@@ -36,7 +36,7 @@ abstract class AbstractManagedThriftServerFactory implements ManagedThriftServer
    */
   @Override
   @JsonProperty
-  public int getPort() {
+  public final int getPort() {
     return port;
   }
 
@@ -51,7 +51,7 @@ abstract class AbstractManagedThriftServerFactory implements ManagedThriftServer
    * @return the service processor
    */
   @JsonProperty("service")
-  DiscoverableProcessor getProcessor() {
+  final DiscoverableProcessor getProcessor() {
     return processor;
   }
 

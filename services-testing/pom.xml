@@ -15,6 +15,10 @@
   <dependencies>
     <dependency>
       <groupId>com.photobox.services.foundation</groupId>
+      <artifactId>services-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.photobox.services.foundation</groupId>
       <artifactId>services-thrift-provider</artifactId>
     </dependency>
     <dependency>

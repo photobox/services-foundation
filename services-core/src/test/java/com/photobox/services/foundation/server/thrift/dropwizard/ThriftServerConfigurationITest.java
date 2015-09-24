@@ -24,7 +24,7 @@ public class ThriftServerConfigurationITest {
   @Test
   public void standardMultiThreadedServerConfiguration() throws Exception {
     ManagedThriftServerFactory factory = getManagedThriftServerFactory(
-        "yaml/thrift_server_standard.yml");
+        "yaml/thrift_server_pooled.yml");
     Assert.assertTrue(factory instanceof MultiThreadedThriftServerFactory);
     MultiThreadedThriftServerFactory realFactory = (MultiThreadedThriftServerFactory) factory;
     Assert.assertEquals(CONFIGURED_PORT, realFactory.getPort());

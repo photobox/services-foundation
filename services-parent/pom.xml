@@ -21,7 +21,7 @@
     <thrift.dest.dir>src/main/java</thrift.dest.dir>
 
     <!-- maven-shade plugin configuration -->
-    <start-class>${project.groupId}.application.Application</start-class>
+    <start-class>${project.groupId}.application.ApplicationStarter</start-class>
   </properties>
 
   <build>
