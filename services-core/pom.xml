@@ -19,6 +19,12 @@
     </dependency>
 
     <dependency>
+      <groupId>com.photobox.services.utils</groupId>
+      <artifactId>dropwizard-build-info-bundle</artifactId>
+      <version>1.3</version>
+    </dependency>
+
+    <dependency>
       <groupId>io.dropwizard</groupId>
       <artifactId>dropwizard-core</artifactId>
     </dependency>

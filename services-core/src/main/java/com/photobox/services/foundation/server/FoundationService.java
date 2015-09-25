@@ -1,5 +1,6 @@
 package com.photobox.services.foundation.server;
 
+import com.photobox.services.dropwizard.buildInfo.BuildInfoBundle;
 import com.photobox.services.foundation.server.thrift.dropwizard.ManagedThriftServerFactory;
 
 import org.slf4j.Logger;
@@ -33,7 +34,7 @@ public abstract class FoundationService {
   public final static class DropWizardLauncher extends Application<FoundationConfiguration> {
     @Override
     public void initialize(Bootstrap<FoundationConfiguration> bootstrap) {
-      // nothing to do yet
+      bootstrap.addBundle(new BuildInfoBundle());
     }
 
     @Override
