@@ -34,7 +34,7 @@ final class PooledThriftClient extends ThriftClientTemplate<ThriftClientConfigur
     pool = new ThriftClientPool<>(
         serverList,
         transport -> clientFactory.getClient(new TBinaryProtocol(transport)),
-        extractPoolConfig(conf));
+        toInternalPoolConfig(conf.getPoolConfig()));
   }
 
   @Override
@@ -47,14 +47,6 @@ final class PooledThriftClient extends ThriftClientTemplate<ThriftClientConfigur
     // cast exception not caught - we want to see it
     InternalPooledThriftClient pooledClient = (InternalPooledThriftClient) client;
     pooledClient.finish();
-  }
-
-  private com.wealoha.thrift.PoolConfig extractPoolConfig(ThriftClientConfiguration conf) {
-    PoolConfig poolConfig = conf.getPoolConfig();
-    if (poolConfig == null) {
-      poolConfig = PoolConfig.defaultPoolConfig();
-    }
-    return toInternalPoolConfig(poolConfig);
   }
 
   private com.wealoha.thrift.PoolConfig toInternalPoolConfig(PoolConfig poolConfig) {
